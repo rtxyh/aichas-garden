@@ -46,6 +46,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({ ok: true, id }),
     };
   } catch (err) {
+    console.error("upload-art error:", err && err.stack ? err.stack : err);
     return {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
