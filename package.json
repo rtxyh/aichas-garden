@@ -2,6 +2,6 @@
   "name": "aichas-garden",
   "private": true,
   "dependencies": {
-    "@netlify/blobs": "latest"
+    "@netlify/blobs": "^7.3.0"
   }
 }
