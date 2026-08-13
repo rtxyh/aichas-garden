@@ -3,6 +3,14 @@ const { getStore } = require("@netlify/blobs");
 const MAX_BYTES = 4.5 * 1024 * 1024; // ~4.5MB safety margin under the request limit
 const CORNERS = ["🍀", "💠", "🌸", "🌷"];
 
+function artStore() {
+  return getStore({
+    name: "art",
+    siteID: process.env.SITE_ID,
+    token: process.env.BLOBS_TOKEN,
+  });
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: JSON.stringify({ error: "Method not allowed." }) };
@@ -31,7 +39,7 @@ exports.handler = async (event) => {
   const corner = CORNERS[Math.floor(Math.random() * CORNERS.length)];
 
   try {
-    const store = getStore("art");
+    const store = artStore();
     await store.setJSON(id, {
       id,
       title: cleanTitle,
