@@ -1,8 +1,16 @@
 const { getStore } = require("@netlify/blobs");
 
+function artStore() {
+  return getStore({
+    name: "art",
+    siteID: process.env.SITE_ID,
+    token: process.env.BLOBS_TOKEN,
+  });
+}
+
 exports.handler = async () => {
   try {
-    const store = getStore("art");
+    const store = artStore();
     const { blobs } = await store.list();
 
     const items = await Promise.all(
@@ -19,6 +27,7 @@ exports.handler = async () => {
       body: JSON.stringify(cleaned),
     };
   } catch (err) {
+    console.error("list-art error:", err && err.stack ? err.stack : err);
     // If Blobs isn't set up yet, fail soft with an empty list rather than breaking the page.
     return {
       statusCode: 200,
